@@ -177,8 +177,6 @@ const cakePrompts = {
     // Return an array of all unique toppings (no duplicates) needed to bake
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
-
-    /* CODE GOES HERE */
     let ingredients = []
     cakes.forEach(cake => {
       ingredients = [...ingredients, cake.toppings].flat()
@@ -234,11 +232,9 @@ const classPrompts = {
     //   { roomLetter: 'E', program: 'FE', capacity: 22 },
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
+    const result = classrooms.filter(classroom => classroom.program === 'FE')
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   totalCapacities() {
@@ -248,20 +244,23 @@ const classPrompts = {
     //   feCapacity: 110,
     //   beCapacity: 96
     // }
+    const result = classrooms.reduce((capacityCount, classroom) => {
+      if(classroom.program === 'FE') {
+        capacityCount.feCapacity += classroom.capacity
+      } else {
+        capacityCount.beCapacity += classroom.capacity
+      }
+      return capacityCount
+    }, {feCapacity: 0, beCapacity: 0})
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
+    const result = classrooms.sort((a,b) => a.capacity - b.capacity)
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   }
 };
 
