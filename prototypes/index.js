@@ -128,11 +128,13 @@ const cakePrompts = {
     //    { flavor: 'yellow', inStock: 14 },
     //    ..etc
     // ]
+    const result = cakes.reduce((cakeCount, cake) => {
+      const cakeWithStock = {flavor: cake.cakeFlavor, inStock: cake.inStock}
+      cakeCount.push(cakeWithStock)
+      return cakeCount
+    },[])
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   onlyInStock() {
@@ -155,21 +157,20 @@ const cakePrompts = {
     // },
     // ..etc
     // ]
+    const result = cakes.filter(cake => cake.inStock != 0)
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   totalInventory() {
     // Return the total amount of cakes in stock e.g.
     // 59
+    const result = cakes.reduce((cakesInStock, cake) => {
+      cakesInStock += cake.inStock
+      return cakesInStock
+    },0)
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   allToppings() {
@@ -178,9 +179,14 @@ const cakePrompts = {
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
     /* CODE GOES HERE */
+    let ingredients = []
+    cakes.forEach(cake => {
+      ingredients = [...ingredients, cake.toppings].flat()
+    })
 
-    // Annotation:
-    // Write your annotation here as a comment
+    const result = [...new Set(ingredients)]
+
+    return result
   },
 
   groceryList() {
@@ -193,29 +199,30 @@ const cakePrompts = {
     //    'berries': 2,
     //    ...etc
     // }
+    const result = cakes.reduce((shoppingList, cake) => {
+      
+      cake.toppings.forEach(topping => {
+        let listIngredients = Object.keys(shoppingList)
 
-    /* CODE GOES HERE */
+        if(listIngredients.includes(topping)) {
+          shoppingList[topping] += 1
+        } else {
+          shoppingList[topping] = 1
+        }
+      })
+      
+      return shoppingList
+    },{})
 
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   }
 };
 
-
-
-
-
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-
-
-
-
 
 // DATASET: classrooms from ./datasets/classrooms
 const classPrompts = {
