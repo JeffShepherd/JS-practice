@@ -179,10 +179,10 @@ const cakePrompts = {
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
     let ingredients = []
     cakes.forEach(cake => {
-      ingredients = [...ingredients, cake.toppings].flat()
+      ingredients = [...ingredients, cake.toppings]
     })
 
-    const result = [...new Set(ingredients)]
+    const result = [...new Set(ingredients.flat())]
 
     return result
   },
@@ -381,11 +381,16 @@ const nationalParksPrompts = {
     //   parksToVisit: ["Yellowstone", "Glacier", "Everglades"],
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
+    const result = nationalParks.reduce((visitStatus, park) => {
+      if(park.visited) {
+        visitStatus.parksVisited.push(park.name)
+      } else {
+        visitStatus.parksToVisit.push(park.name)
+      }
+      return visitStatus
+    },{parksToVisit: [], parksVisited: []})
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   getParkInEachState() {
@@ -396,12 +401,11 @@ const nationalParksPrompts = {
     // { Maine: 'Acadia' },
     // { Utah: 'Zion' },
     // { Florida: 'Everglades' } ]
-
-
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    const result = nationalParks.map(park => {
+      let stateWithPark = {[park.location]: park.name}
+      return stateWithPark
+    })
+    return result
   },
 
   getParkActivities() {
@@ -419,11 +423,13 @@ const nationalParksPrompts = {
     //   'canyoneering',
     //   'backpacking',
     //   'rock climbing' ]
+    let allActivities = []
+    nationalParks.forEach(park => {
+      allActivities = [...allActivities, park.activities]
+    })
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    const result = [...new Set(allActivities.flat())]
+    return result
   }
 };
 
