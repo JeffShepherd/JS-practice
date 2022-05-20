@@ -433,29 +433,23 @@ const nationalParksPrompts = {
   }
 };
 
-
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-
-
-
-
 
 // DATASET: breweries from ./datasets/breweries
 const breweryPrompts = {
   getBeerCount() {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
+    const result = breweries.reduce((beerCount, brewery) => {
+      beerCount += brewery.beers.length
+      return beerCount
+    },0)
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   getBreweryBeerCount() {
@@ -466,22 +460,29 @@ const breweryPrompts = {
     //  { name: 'Ratio Beerworks', beerCount: 5},
     // ...etc.
     // ]
+    const result = breweries.map(brewery => {
+      return {name: brewery.name, beerCount: brewery.beers.length}
+    })
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   findHighestAbvBeer() {
     // Return the beer which has the highest ABV of all beers
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
+    const result = breweries.reduce((strongestBeer, brewery) => {
+        brewery.beers.forEach(beer => {
+          if(strongestBeer === undefined) {
+            strongestBeer = beer
+          } else if(beer.abv > strongestBeer.abv){
+            strongestBeer = beer
+          }
+        })
+      return strongestBeer
+    },undefined)
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   }
 };
 
