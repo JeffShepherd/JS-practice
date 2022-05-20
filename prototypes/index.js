@@ -319,11 +319,12 @@ const weatherPrompts = {
   getAverageTemps() {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
+    const result = weather.reduce((avgTemps, location) => {
+      avgTemps.push((location.temperature.high + location.temperature.low)/2)
+      return avgTemps
+    },[])
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   findSunnySpots() {
@@ -332,11 +333,14 @@ const weatherPrompts = {
     // [ 'Atlanta, Georgia is sunny.',
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
+    const result = weather.reduce((sunnyCities, location) => {
+      if(location.type.includes('sunny')) {
+        sunnyCities.push(`${location.location} is ${location.type}.`)
+      }
+      return sunnyCities
+    },[])
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   findHighestHumidity() {
@@ -347,12 +351,16 @@ const weatherPrompts = {
     //   humidity: 84,
     //   temperature: { high: 49, low: 38 }
     // }
+    const result = weather.reduce((humidCity, location) => {
+      if(humidCity === false) {
+        humidCity = location
+      } else if(location.humidity > humidCity.humidity) {
+        humidCity = location
+      }
+      return humidCity
+    }, false)
 
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
-
+    return result
   }
 };
 
