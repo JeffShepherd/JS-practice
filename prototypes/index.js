@@ -488,32 +488,11 @@ const breweryPrompts = {
   }
 };
 
-
-
-
-
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-
-
-
-
-
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
-
-
-
-
-
 
 // DOUBLE DATASETS
 // =================================================================
@@ -527,11 +506,20 @@ const turingPrompts = {
     //  { name: 'Pam', studentCount: 21 },
     //  { name: 'Robbie', studentCount: 18 }
     // ]
+    const result = instructors.reduce((studentsPerInstr, instructor) => {
+      let instrWithCount = {name: instructor.name, studentCount: 0}
 
-    /* CODE GOES HERE */
+      cohorts.forEach(cohort => {
+        if(instructor.module === cohort.module) {
+          instrWithCount.studentCount = cohort.studentCount
+        }
+      })
 
-    // Annotation:
-    // Write your annotation here as a comment
+      studentsPerInstr.push(instrWithCount)
+      return studentsPerInstr
+    },[])
+
+    return result
   },
 
   studentsPerInstructor() {
@@ -540,11 +528,19 @@ const turingPrompts = {
     // cohort1806: 9,
     // cohort1804: 10.5
     // }
+    const result = cohorts.reduce((cohortRatio, cohort) => {
+      let cohortTeachers = 0
+      instructors.forEach(instructor => {
+        if(instructor.module === cohort.module) {
+          cohortTeachers ++
+        }
+      })
 
-    /* CODE GOES HERE */
+      cohortRatio[`cohort${cohort.cohort}`] = cohort.studentCount/cohortTeachers
+      return cohortRatio
+    },{})
 
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   modulesPerTeacher() {
@@ -561,11 +557,22 @@ const turingPrompts = {
     //     Christie: [1, 2, 3, 4],
     //     Will: [1, 2, 3, 4]
     //   }
+    const result = instructors.reduce((instructorMods, instructor) => {
+      let mods = []
 
-    /* CODE GOES HERE */
+      instructor.teaches.forEach(topic => {
+        cohorts.forEach(cohort => {
+          if(cohort.curriculum.includes(topic)) {
+            mods.push(cohort.module)
+          }
+        })
+      })
+      
+      instructorMods[instructor.name] = [...new Set(mods.sort())]
+      return instructorMods
+    },{})
 
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   curriculumPerTeacher() {
@@ -577,29 +584,31 @@ const turingPrompts = {
     //   javascript: [ 'Travis', 'Louisa', 'Christie', 'Will' ],
     //   recursion: [ 'Pam', 'Leta' ]
     // }
+    const allTopics = cohorts.map(cohort => cohort.curriculum)
+    const topics = [...new Set(allTopics.flat())]
 
-    /* CODE GOES HERE */
+    const result = topics.reduce((topicsWithTeachers, topic) => {
+      let teachers = []
 
-    // Annotation:
-    // Write your annotation here as a comment
+      instructors.forEach(instructor => {
+        if(instructor.teaches.includes(topic)) {
+          teachers.push(instructor.name)
+        }
+      })
+
+      topicsWithTeachers[topic] = teachers
+      return topicsWithTeachers
+    },{})
+
+    return result
   }
 };
 
-
-
-
-
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-
-
-
-
 
 // DATASET: bosses, sidekicks from ./datasets/bosses
 const bossPrompts = {
