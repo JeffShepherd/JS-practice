@@ -620,29 +620,32 @@ const bossPrompts = {
     //   { bossName: 'Ursula', sidekickLoyalty: 20 },
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
+    let bossList = Object.values(bosses)
 
-    /* CODE GOES HERE */
+    const result = bossList.reduce((bossLoyalty, boss) => {
+      let currentBoss = {bossName: `${boss.name}`, sidekickLoyalty: 0}
 
-    // Annotation:
-    // Write your annotation here as a comment
+      boss.sidekicks.forEach(bossSidekick => {
+        sidekicks.forEach(sidekick => {
+          if(bossSidekick.name === sidekick.name) {
+            currentBoss.sidekickLoyalty += sidekick.loyaltyToBoss
+          }
+        })
+      })
+
+      bossLoyalty.push(currentBoss)
+      return bossLoyalty
+    },[])
+
+    return result
   }
 };
 
-
-
-
-
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-
-
-
-
 
 // DATASET: constellations, stars } from ./datasets/astronomy
 const astronomyPrompts = {
