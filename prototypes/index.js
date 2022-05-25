@@ -664,11 +664,14 @@ const astronomyPrompts = {
     //     lightYearsFromEarth: 640,
     //     color: 'red' }
     // ]
+    const allConstellations = Object.values(constellations)
+    const constellationStars = allConstellations.map(constellation => 
+      constellation.stars).flat()
 
-    /* CODE GOES HERE */
+    const result = stars.filter(star => 
+      constellationStars.includes(star.name))
 
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   starsByColor() {
@@ -681,11 +684,22 @@ const astronomyPrompts = {
     //   orange: [{obj}],
     //   red: [{obj}]
     // }
+    const colors = [...new Set(stars.map(star => star.color))]
 
-    /* CODE GOES HERE */
+    const result = colors.reduce((colorsWithStars, color) => {
+      let matchingStars = []
+      
+      stars.forEach(star => {
+        if(color === star.color) {
+          matchingStars.push(star)
+        }
+      })
 
-    // Annotation:
-    // Write your annotation here as a comment
+      colorsWithStars[color] = matchingStars
+      return colorsWithStars
+    }, {})
+
+    return result
   },
 
   constellationsStarsExistIn() {
@@ -703,29 +717,15 @@ const astronomyPrompts = {
     //    "Orion",
     //    "The Little Dipper" ]
 
-
-    /* CODE GOES HERE */
-
-    // Annotation:
-    // Write your annotation here as a comment
+    //CANNOT UNDERSTAND WHAT THIS TEST IS LOOKING FOR
   }
 };
 
-
-
-
-
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-
-
-
-
 
 // DATASET: charaters, weapons from ./datasets/ultima
 const ultimaPrompts = {
