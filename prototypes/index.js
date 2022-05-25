@@ -730,43 +730,43 @@ const astronomyPrompts = {
 // DATASET: charaters, weapons from ./datasets/ultima
 const ultimaPrompts = {
   totalDamage() {
-
     // Return the sum of the amount of damage for all the weapons that our characters can use
     // Answer => 113
+    const result = characters.reduce((damageCounter, character) => {
+      character.weapons.forEach(weapon => {
+       damageCounter += weapons[weapon].damage
+      })
 
-    /* CODE GOES HERE */
+      return damageCounter
+    },0)
 
-    // Annotation:
-    // Write your annotation here as a comment
+    return result
   },
 
   charactersByTotal() {
-
     // Return the sum damage and total range for each character as an object.
     // ex: [ { Avatar: { damage: 27, range: 24 }, { Iolo: {...}, ...}
+    const result = characters.reduce((allCharWithStats, character) => {
+      let charStats = {damage:0, range:0}
 
-    /* CODE GOES HERE */
+      character.weapons.forEach(weapon => {
+        charStats.damage += weapons[weapon].damage
+        charStats.range += weapons[weapon].range
+      })
 
-    // Annotation:
-    // Write your annotation here as a comment
+      allCharWithStats.push({[character.name]: charStats})
+      return allCharWithStats
+    },[])
+
+    return result
   },
 };
 
-
-
-
-
-
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-
-
-
-
-
 
 // DATASET: dinosaurs, humans, movies from ./datasets/dinosaurs
 const dinosaurPrompts = {
