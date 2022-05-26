@@ -696,7 +696,7 @@ describe("PROTOTYPES", () => {
   });
 
   describe("Dinosaur Prompts", () => {
-    it.skip("countAwesomeDinosaurs", () => {
+    it("countAwesomeDinosaurs", () => {
       const e = dinosaurPrompts.countAwesomeDinosaurs();
 
       expect(e).to.deep.equal({
@@ -708,7 +708,7 @@ describe("PROTOTYPES", () => {
       })
     });
 
-    it.skip("averageAgePerMovie", () => {
+    it("averageAgePerMovie", () => {
       const e = dinosaurPrompts.averageAgePerMovie();
 
       expect(e).to.deep.equal({
@@ -728,7 +728,7 @@ describe("PROTOTYPES", () => {
       })
     });
 
-    it.skip("uncastActors", () => {
+    it("uncastActors", () => {
       const e = dinosaurPrompts.uncastActors();
 
       expect(e).to.deep.equal([{
@@ -752,7 +752,7 @@ describe("PROTOTYPES", () => {
       }])
     });
 
-    it.skip("actorsAgesInMovies", () => {
+    it("actorsAgesInMovies", () => {
       const e = dinosaurPrompts.actorsAgesInMovies();
 
       expect(e).to.deep.equal([{

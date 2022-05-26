@@ -780,11 +780,20 @@ const dinosaurPrompts = {
     //   'Jurassic World': 11,
     //   'Jurassic World: Fallen Kingdom': 18
     // }
+    const result = movies.reduce((moviesWithDinos, movie) => {
+      let counter = 0
 
-    /* CODE GOES HERE */
+      movie.dinos.forEach(dino => {
+        if(dinosaurs[dino].isAwesome) {
+          counter ++
+        }
+      })
 
-    // Annotation:
-    // Write your annotation here as a comment
+      moviesWithDinos[movie.title] = counter
+      return moviesWithDinos
+    }, {})
+
+    return result
   },
 
   averageAgePerMovie() {
@@ -812,17 +821,27 @@ const dinosaurPrompts = {
           }
       }
     */
+    const result = movies.reduce((directorMovies, movie) => {
+      let ageTotal = 0
 
-    /* CODE GOES HERE */
+      if(!directorMovies[movie.director]) {
+        directorMovies[movie.director] = {}
+      }
 
-    // Annotation:
-    // Write your annotation here as a comment
+      movie.cast.forEach(castMember => {
+        ageTotal += movie.yearReleased - humans[castMember].yearBorn
+      })
+
+      directorMovies[movie.director][movie.title] = Math.floor(ageTotal / movie.cast.length)
+      return directorMovies
+    }, {})
+
+    return result
   },
 
   uncastActors() {
     /*
     Return an array of objects that contain the names of humans who have not been cast in a Jurassic Park movie (yet), their nationality, and their imdbStarMeterRating. The object in the array should be sorted alphabetically by nationality.
-
     e.g.
       [{
         name: 'Justin Duncan',
@@ -844,17 +863,34 @@ const dinosaurPrompts = {
         imdbStarMeterRating: 0
       }]
     */
+    const actorNames = Object.keys(humans)
 
-    /* CODE GOES HERE */
+    const uncastActorNames = actorNames.reduce((uncastActors, actor) => {
+      let movieCount = 0
 
-    // Annotation:
-    // Write your annotation here as a comment
+      movies.forEach(movie => {
+        if(movie.cast.includes(actor)) {
+          movieCount ++
+        }
+      })
+
+      if(movieCount < 1) {
+        uncastActors.push({
+          name: actor, 
+          nationality: humans[actor].nationality, 
+          imdbStarMeterRating: humans[actor].imdbStarMeterRating
+        })
+      }
+      return uncastActors
+    }, [])
+
+    const result = uncastActorNames.sort((a, b) => a.nationality.localeCompare(b.nationality))
+    return result
   },
 
   actorsAgesInMovies() {
     /*
     Return an array of objects for each human and the age(s) they were in the movie(s) they were cast in, as an array of age(s). Only include humans who were cast in at least one movie.
-
     e.g.
     [ { name: 'Sam Neill', ages: [ 46, 54 ] },
       { name: 'Laura Dern', ages: [ 26, 34 ] },
@@ -866,11 +902,24 @@ const dinosaurPrompts = {
       { name: 'Chris Pratt', ages: [ 36, 39 ] },
       { name: 'Bryce Dallas Howard', ages: [ 34, 37 ] } ]
     */
+    const actorNames = Object.keys(humans) 
 
-    /* CODE GOES HERE */
+    const result = actorNames.reduce((actorsWithAges, actor) => {
+      let ages = []
 
-    // Annotation:
-    // Write your annotation here as a comment
+      movies.forEach(movie => {
+        if(movie.cast.includes(actor)) {
+          ages.push(Math.floor(movie.yearReleased - humans[actor].yearBorn))
+        }
+      })
+
+      if(ages.length) {
+        actorsWithAges.push({name: actor, ages: ages})
+      }
+      return actorsWithAges
+    },[])
+
+    return result
   }
 };
 
