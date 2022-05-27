@@ -18,12 +18,12 @@ const { dinosaurs, humans, movies } = require('./datasets/dinosaurs');
 
 // DATASET: kitties from ./datasets/kitties
 const kittyPrompts = {
-  orangePetNames() {
+  orangePetNames(pets) {
     // Return an array of just the names of kitties who are orange e.g.
     // ['Tiger', 'Snickers']
-    const result = kitties.reduce((names, kitty) => {
-      if(kitty.color === 'orange') {
-        names.push(kitty.name)
+    const result = pets.reduce((names, pet) => {
+      if(pet.color === 'orange') {
+        names.push(pet.name)
       }
       return names
     },[])
@@ -31,18 +31,18 @@ const kittyPrompts = {
     return result
   },
 
-  sortByAge() {
+  sortByAge(pets) {
     // Sort the kitties by their age
-    const result = kitties.sort((a,b) => b.age - a.age)
+    const result = pets.sort((a,b) => b.age - a.age)
 
     return result
   },
 
-  growUp() {
+  growUp(pets) {
     // Return an array of kitties who have all grown up by 2 years e.g.
-    let result = this.sortByAge()
+    let result = this.sortByAge(pets)
 
-    result.forEach(kitty => kitty.age += 2)
+    result.forEach(pet => pet.age += 2)
 
     return result
   }
@@ -53,7 +53,6 @@ const kittyPrompts = {
 // refactor the above functions using arguments and parameters so that
 // they can perform the same utility
 // for the kitties or puppers datasets, depending on what arguments you send through.
-
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
