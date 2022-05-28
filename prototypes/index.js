@@ -60,14 +60,9 @@ const kittyPrompts = {
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 
-
-
-
-
-
 // DATASET: clubs from ./datasets/clubs
 const clubPrompts = {
-  membersBelongingToClubs() {
+  membersBelongingToClubs(clubs) {
     // Your function should access the clubs data through a parameter (it is being passed as an argument in the test file)
     // Create an object whose keys are the names of people, and whose values are
     // arrays that include the names of the clubs that person is a part of. e.g.
@@ -76,11 +71,22 @@ const clubPrompts = {
     //   Pam: ['Drama', 'Art', 'Chess'],
     //   ...etc
     // }
+    const namesWithDupes = clubs.map(club => club.members)
+    const names = [...new Set(namesWithDupes.flat())]
 
-    /* CODE GOES HERE */
+    const result = names.reduce((namesWithClubs, name) => {
+      let clubsParticipatingIn = []
 
-    // Annotation:
-    // Write your annotation here as a comment
+      clubs.forEach(club => {
+        if(club.members.includes(name)) {
+          clubsParticipatingIn.push(club.club)
+        }
+      })
+
+      namesWithClubs[name] = clubsParticipatingIn
+      return namesWithClubs
+    },{})
+    return result
   }
 };
 
